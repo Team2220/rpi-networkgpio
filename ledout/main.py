@@ -1,14 +1,16 @@
 """A program to control BEVRLink Relay 8 HAT via a simple API
 
-Exposes a single endpoint: / set / <relay (int, 1 to 8)> / <state (on|off)>
+Exposes a single endpoint: / set / <relay (int, 1 to 8)> / <state (on|off|blink)>
 Example: /set/1/on
 
 The relay number should be between 1 and 8, and the state should be either
-"on" or "off". It will be mapped to the relevant GPIO pin.
+"on", "off", or "blink". It will be mapped to the relevant GPIO pin.
 """
 
 import RPi.GPIO as GPIO
 from flask import Flask
+import threading
+import time
 
 # GPIO output mode
 GPIO.setmode(GPIO.BCM)
@@ -35,6 +37,21 @@ for pin in pin_mapping.values():
 GPIO.setup(status_pin, GPIO.OUT)
 GPIO.output(status_pin, GPIO.LOW)
 
+# Dictionary to track which relays should blink
+blink_states = {relay: False for relay in pin_mapping.keys()}
+blink_lock = threading.Lock()
+
+def blink_thread():
+    """Single thread that handles blinking for all relays"""
+    blink_phase = False
+    while True:
+        time.sleep(0.5)
+        blink_phase = not blink_phase
+
+        with blink_lock:
+            for relay, should_blink in blink_states.items():
+                if should_blink:
+                    GPIO.output(pin_mapping[relay], GPIO.HIGH if blink_phase else GPIO.LOW)
 
 # Create Flask app and endpoint
 app = Flask(__name__)
@@ -43,19 +60,29 @@ app = Flask(__name__)
 @app.post("/set/<int:relay>/<string:state>")
 def set_pin(relay: int, state: str):
     # Make sure that the inputs are valid
-    if relay not in pin_mapping or state not in ["on", "off"]:
+    if relay not in pin_mapping or state not in ["on", "off", "blink"]:
         return "Invalid relay or state", 400
 
-    # Convert state to GPIO.HIGH or GPIO.LOW
-    pin_state = GPIO.HIGH if state == "on" else GPIO.LOW
+    with blink_lock:
+        if state == "blink":
+            blink_states[relay] = True
+        else:
+            blink_states[relay] = False
+            # Convert state to GPIO.HIGH or GPIO.LOW
+            pin_state = GPIO.HIGH if state == "on" else GPIO.LOW
+            # Drive the pin
+            GPIO.output(pin_mapping[relay], pin_state)
 
-    # Drive the pin
-    GPIO.output(pin_mapping[relay], pin_state)
     return "OK"
 
 if __name__ == "__main__":
     # Set the status LED to high when app starts
     GPIO.output(status_pin, GPIO.HIGH)
+
+    # Start the blink thread
+    blink_worker = threading.Thread(target=blink_thread)
+    blink_worker.daemon = True
+    blink_worker.start()
 
     app.run(host="0.0.0.0")
 
