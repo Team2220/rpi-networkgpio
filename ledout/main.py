@@ -40,7 +40,7 @@ GPIO.output(status_pin, GPIO.LOW)
 app = Flask(__name__)
 
 
-@app.post("/set/<int:relay>/<str:state>")
+@app.post("/set/<int:relay>/<string:state>")
 def set_pin(relay: int, state: str):
     # Make sure that the inputs are valid
     if relay not in pin_mapping or state not in ["on", "off"]:
