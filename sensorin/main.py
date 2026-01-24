@@ -2,15 +2,15 @@ import requests, signal, sys
 import RPi.GPIO as GPIO
 
 #GPIO pins for sensors
-sensorB1 = 0
-sensorB2 = 0
-sensorB3 = 0
-sensorB4 = 0
+sensorB1 = 17
+sensorB2 = 27
+sensorB3 = 22
+sensorB4 = 23
 
-sensorR1 = 0
-sensorR2 = 0
-sensorR3 = 0
-sensorR4 = 0
+sensorR1 = 24
+sensorR2 = 25
+sensorR3 = 26
+sensorR4 = 16
 
 # Cleanup handler
 def signal_handler(sig, frame):
@@ -18,14 +18,15 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 def send_score(alliance):
-    r = requests.post('0.0.0.0', json=alliance)
+    # r = requests.post('0.0.0.0', json=alliance)
+    print("Sending score for " + alliance)
     print("Request sent with status " + r.status_code)
 
 # Callbacks for sensors
-def callback_red():
+def callback_red(channel):
     send_score("red")
 
-def callback_blue():
+def callback_blue(channel):
     send_score("blue")
 
 if __name__ == '__main__':
