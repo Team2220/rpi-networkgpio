@@ -23,10 +23,10 @@ def send_score(alliance):
     print("Request sent with status " + r.status_code)
 
 # Callbacks for sensors
-def callback_red():
+def callback_red(channel):
     send_score("red")
 
-def callback_blue():
+def callback_blue(channel):
     send_score("blue")
 
 if __name__ == '__main__':
