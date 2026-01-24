@@ -10,6 +10,9 @@ The relay number should be between 1 and 8, and the state should be either
 import RPi.GPIO as GPIO
 from flask import Flask
 
+# GPIO output mode
+GPIO.setmode(GPIO.BCM)
+
 # Map relay numbers to GPIO pins
 pin_mapping = {
     1: 5,
