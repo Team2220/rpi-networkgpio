@@ -5,10 +5,12 @@ import RPi.GPIO as GPIO
 sensorB1 = 0
 sensorB2 = 0
 sensorB3 = 0
+sensorB4 = 0
 
 sensorR1 = 0
 sensorR2 = 0
 sensorR3 = 0
+sensorR4 = 0
 
 # Cleanup handler
 def signal_handler(sig, frame):
@@ -31,18 +33,22 @@ if __name__ == '__main__':
     GPIO.setup(sensorB1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(sensorB2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(sensorB3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(sensorB4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     GPIO.setup(sensorR1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(sensorR2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(sensorR3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(sensorR4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     GPIO.add_event_detect(sensorB1, GPIO.RISING, callback=callback_blue, bouncetime=300)
     GPIO.add_event_detect(sensorB2, GPIO.RISING, callback=callback_blue, bouncetime=300)
     GPIO.add_event_detect(sensorB3, GPIO.RISING, callback=callback_blue, bouncetime=300)
+    GPIO.add_event_detect(sensorB4, GPIO.RISING, callback=callback_blue, bouncetime=300)
 
     GPIO.add_event_detect(sensorR1, GPIO.RISING, callback=callback_red, bouncetime=300)
     GPIO.add_event_detect(sensorR2, GPIO.RISING, callback=callback_red, bouncetime=300)
     GPIO.add_event_detect(sensorR3, GPIO.RISING, callback=callback_red, bouncetime=300)
+    GPIO.add_event_detect(sensorR4, GPIO.RISING, callback=callback_red, bouncetime=300)
 
     signal.signal(signal.SIGINT, signal_handler)
     print("Sensor monitoring started. Press Ctrl+C to exit.")
