@@ -15,6 +15,12 @@ import time
 # GPIO output mode
 GPIO.setmode(GPIO.BCM)
 
+# Pin Aliases:
+pin_alias = {
+    "red_hub": 1,
+    "blue_hub": 2
+}
+
 # Map relay numbers to GPIO pins
 pin_mapping = {
     1: 5,
@@ -56,7 +62,6 @@ def blink_thread():
 # Create Flask app and endpoint
 app = Flask(__name__)
 
-
 @app.post("/set/<int:relay>/<string:state>")
 def set_pin(relay: int, state: str):
     # Make sure that the inputs are valid
@@ -74,6 +79,14 @@ def set_pin(relay: int, state: str):
             GPIO.output(pin_mapping[relay], pin_state)
 
     return "OK"
+
+
+@app.post("/set/<string:relay>/<string:state>")
+def set_pin_alias(relay: str, state: str):
+    if relay not in pin_alias:
+        return "Invalid relay alias", 400
+
+    return set_pin(pin_alias[relay], state)
 
 if __name__ == "__main__":
     # Set the status LED to high when app starts
