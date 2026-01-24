@@ -43,3 +43,7 @@ if __name__ == '__main__':
     GPIO.add_event_detect(sensorR1, GPIO.RISING, callback=callback_red, bouncetime=300)
     GPIO.add_event_detect(sensorR2, GPIO.RISING, callback=callback_red, bouncetime=300)
     GPIO.add_event_detect(sensorR3, GPIO.RISING, callback=callback_red, bouncetime=300)
+
+    signal.signal(signal.SIGINT, signal_handler)
+    print("Sensor monitoring started. Press Ctrl+C to exit.")
+    signal.pause()
