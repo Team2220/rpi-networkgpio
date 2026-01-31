@@ -5,6 +5,8 @@ import RPi.GPIO as GPIO
 # It will post this url, with "/(red|blue)/(# of points)" appended
 POST_URL = "http://172.16.20.6/api/arena/points"
 
+DEBOUNCE_TIME = 20
+
 #GPIO pins for sensors
 sensorB1 = 17
 sensorB2 = 27
@@ -45,15 +47,15 @@ if __name__ == '__main__':
     GPIO.setup(sensorR3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(sensorR4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    GPIO.add_event_detect(sensorB1, GPIO.RISING, callback=callback_blue, bouncetime=300)
-    GPIO.add_event_detect(sensorB2, GPIO.RISING, callback=callback_blue, bouncetime=300)
-    GPIO.add_event_detect(sensorB3, GPIO.RISING, callback=callback_blue, bouncetime=300)
-    GPIO.add_event_detect(sensorB4, GPIO.RISING, callback=callback_blue, bouncetime=300)
+    GPIO.add_event_detect(sensorB1, GPIO.RISING, callback=callback_blue, bouncetime=DEBOUNCE_TIME)
+    GPIO.add_event_detect(sensorB2, GPIO.RISING, callback=callback_blue, bouncetime=DEBOUNCE_TIME)
+    GPIO.add_event_detect(sensorB3, GPIO.RISING, callback=callback_blue, bouncetime=DEBOUNCE_TIME)
+    GPIO.add_event_detect(sensorB4, GPIO.RISING, callback=callback_blue, bouncetime=DEBOUNCE_TIME)
 
-    GPIO.add_event_detect(sensorR1, GPIO.RISING, callback=callback_red, bouncetime=300)
-    GPIO.add_event_detect(sensorR2, GPIO.RISING, callback=callback_red, bouncetime=300)
-    GPIO.add_event_detect(sensorR3, GPIO.RISING, callback=callback_red, bouncetime=300)
-    GPIO.add_event_detect(sensorR4, GPIO.RISING, callback=callback_red, bouncetime=300)
+    GPIO.add_event_detect(sensorR1, GPIO.RISING, callback=callback_red, bouncetime=DEBOUNCE_TIME)
+    GPIO.add_event_detect(sensorR2, GPIO.RISING, callback=callback_red, bouncetime=DEBOUNCE_TIME)
+    GPIO.add_event_detect(sensorR3, GPIO.RISING, callback=callback_red, bouncetime=DEBOUNCE_TIME)
+    GPIO.add_event_detect(sensorR4, GPIO.RISING, callback=callback_red, bouncetime=DEBOUNCE_TIME)
 
     signal.signal(signal.SIGINT, signal_handler)
     print("Sensor monitoring started. Press Ctrl+C to exit.")
