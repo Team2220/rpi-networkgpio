@@ -22,6 +22,8 @@ pin_alias = {
     "stack_yellow": 3,
     "stack_white": 4,
     "stack_green": 5,
+    "hub_red": 7,
+    "hub_blue": 8,
 }
 
 # Map relay numbers to GPIO pins
