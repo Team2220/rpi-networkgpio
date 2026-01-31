@@ -1,6 +1,9 @@
 import requests, signal, sys
 import RPi.GPIO as GPIO
 
+# The URL to post when a new score is recieved
+POST_URL = "http://0.0.0.0"
+
 #GPIO pins for sensors
 sensorB1 = 17
 sensorB2 = 27
@@ -18,8 +21,8 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 def send_score(alliance):
-    # r = requests.post('0.0.0.0', json=alliance)
     print("Sending score for " + alliance)
+    r = requests.post(POST_URL, json=alliance)
     print("Request sent with status " + r.status_code)
 
 # Callbacks for sensors
