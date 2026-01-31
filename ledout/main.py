@@ -97,7 +97,7 @@ if __name__ == "__main__":
     blink_worker.daemon = True
     blink_worker.start()
 
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=80)
 
     # Set the status LED to low when app stops
     GPIO.output(status_pin, GPIO.LOW)
