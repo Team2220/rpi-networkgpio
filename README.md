@@ -62,5 +62,6 @@ Then run it with
 sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
 sudo systemctl enable sensorin.service
-sudo systemctl start sensorin.service
+
+sudo reboot -h now
 ```
