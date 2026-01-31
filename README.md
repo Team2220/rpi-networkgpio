@@ -26,7 +26,7 @@ sudo python3 main.py
 
 ## Example `systemd` service
 
-The below is an example for the `sensorin` app, which would be placed at `/etc/systemd/system/sensorin.service`
+The below is an example for the `sensorin` app, which would be placed at `/etc/systemd/system/sensorin.service`. The below option assumes no venv, which requires you to install any dependencies via `sudo apt install python3-...`
 
 ```
 [Unit]
@@ -43,7 +43,7 @@ User=root
 WorkingDirectory=/home/pi/rpi-networkgpio/sensorin
 
 # Use the virtualenv Python
-ExecStart=/home/pi/rpi-networkgpio/sensorin/.venv/bin/python main.py
+ExecStart=python3 main.py
 
 # Restart if it crashes
 Restart=always
