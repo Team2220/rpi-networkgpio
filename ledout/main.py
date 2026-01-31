@@ -17,8 +17,11 @@ GPIO.setmode(GPIO.BCM)
 
 # Pin Aliases:
 pin_alias = {
-    "red_hub": 1,
-    "blue_hub": 2
+    "stack_red": 1,
+    "stack_blue": 2,
+    "stack_yellow": 3,
+    "stack_white": 4,
+    "stack_green": 5,
 }
 
 # Map relay numbers to GPIO pins
