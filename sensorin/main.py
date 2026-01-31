@@ -23,7 +23,7 @@ def signal_handler(sig, frame):
 def send_score(alliance):
     print("Sending score for " + alliance)
     r = requests.post(POST_URL, json=alliance)
-    print("Request sent with status " + r.status_code)
+    print("Request sent with status " + str(r.status_code))
 
 # Callbacks for sensors
 def callback_red(channel):
