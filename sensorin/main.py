@@ -30,11 +30,11 @@ def send_score(alliance):
 
 # Callbacks for sensors
 def callback_red(channel):
-    print("event on pin " + channel)
+    print("event on pin " + str(channel))
     send_score("red")
 
 def callback_blue(channel):
-    print("event on pin " + channel)
+    print("event on pin " + str(channel))
     send_score("blue")
 
 if __name__ == '__main__':
