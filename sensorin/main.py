@@ -8,15 +8,15 @@ POST_URL = "http://172.16.20.6/api/arena/points"
 DEBOUNCE_TIME = 20
 
 #GPIO pins for sensors
-sensorB1 = 17
-sensorB2 = 27
-sensorB3 = 22
-sensorB4 = 23
+sensorB1 = 25
+sensorB2 = 24
+sensorB3 = 23
+sensorB4 = 18
 
-sensorR1 = 24
-sensorR2 = 25
-sensorR3 = 26
-sensorR4 = 16
+sensorR1 = 12
+sensorR2 = 16
+sensorR3 = 20
+sensorR4 = 7
 
 # Cleanup handler
 def signal_handler(sig, frame):
@@ -30,9 +30,11 @@ def send_score(alliance):
 
 # Callbacks for sensors
 def callback_red(channel):
+    print("event on pin " + channel)
     send_score("red")
 
 def callback_blue(channel):
+    print("event on pin " + channel)
     send_score("blue")
 
 if __name__ == '__main__':
