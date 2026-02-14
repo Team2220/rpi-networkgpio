@@ -11,6 +11,9 @@ import RPi.GPIO as GPIO
 from flask import Flask
 import threading
 import time
+import requests
+
+PING_URL = "http://172.16.20.6/api/arena/stack/home"
 
 # GPIO output mode
 GPIO.setmode(GPIO.BCM)
@@ -101,6 +104,9 @@ if __name__ == "__main__":
     blink_worker = threading.Thread(target=blink_thread)
     blink_worker.daemon = True
     blink_worker.start()
+
+    # ping host server on startup
+    requests.get(PING_URL)
 
     app.run(host="0.0.0.0", port=80)
 
