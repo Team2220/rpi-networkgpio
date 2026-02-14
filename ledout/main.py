@@ -106,8 +106,11 @@ if __name__ == "__main__":
     blink_worker.start()
 
     # ping host server on startup
-    requests.get(PING_URL)
-
+    try:
+        requests.get(PING_URL)
+    except Exception:
+        print("failed to ping server")
+    
     app.run(host="0.0.0.0", port=80)
 
     # Set the status LED to low when app stops
