@@ -1,0 +1,25 @@
+[Unit]
+Description=RPi Network GPIO LED Out
+After=network.target
+
+[Service]
+Type=simple
+
+# Run as root
+User=root
+
+# Set working directory
+WorkingDirectory=/home/pi/rpi-networkgpio/ledout
+
+# Use the virtualenv Python
+ExecStart=python3 main.py
+
+# Restart if it crashes
+Restart=always
+RestartSec=5
+
+# Environment hygiene
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
