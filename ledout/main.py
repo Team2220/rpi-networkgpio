@@ -20,6 +20,9 @@ GPIO.setmode(GPIO.BCM)
 
 # Pin Aliases:
 pin_alias = {
+    "ds_1": 1,
+    "ds_2": 2,
+    "ds_3": 3,
     "stack_red": 1,
     "stack_blue": 2,
     "stack_yellow": 3,
