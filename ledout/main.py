@@ -54,6 +54,8 @@ for pin in pin_mapping.values():
 GPIO.setup(status_pin, GPIO.OUT)
 GPIO.output(status_pin, GPIO.LOW)
 
+pin_states = {pin: "off" for pin in pin_mapping.keys()}
+
 # Dictionary to track which relays should blink
 blink_states = {relay: False for relay in pin_mapping.keys()}
 blink_lock = threading.Lock()
@@ -80,6 +82,8 @@ def set_pin(relay: int, state: str):
         return "Invalid relay or state", 400
 
     with blink_lock:
+        pin_states[relay] = state
+
         if state == "blink":
             blink_states[relay] = True
         else:
@@ -98,6 +102,18 @@ def set_pin_alias(relay: str, state: str):
         return "Invalid relay alias", 400
 
     return set_pin(pin_alias[relay], state)
+
+
+@app.get("/state")
+def get_state():
+    pin_mappings = {
+        name: pin_states[this_pin] for name, this_pin in pin_mapping.items()
+    }
+
+    return {
+        "pins": pin_states,
+        "mappings": pin_mappings
+    }
 
 if __name__ == "__main__":
     # Set the status LED to high when app starts
