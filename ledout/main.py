@@ -107,7 +107,7 @@ def set_pin_alias(relay: str, state: str):
 @app.get("/state")
 def get_state():
     pin_mappings = {
-        name: pin_states[this_pin] for name, this_pin in pin_mapping.items()
+        name: pin_states[this_pin] for name, this_pin in pin_alias.items()
     }
 
     return {
